@@ -21,6 +21,7 @@
 
 #include <assert.h>
 
+
 using std::unordered_map;
 
 namespace swoole {
@@ -821,7 +822,7 @@ void Server::reactor_thread_main_loop(Server *serv, int reactor_id) {
         return;
     }
 
-    if (serv->is_thread_mode()) {
+    if (serv->is_thread_mode() && defined(SW_THREAD) && defined(ZTS)) {
         SwooleTG.message_bus = &thread->message_bus;
         serv->call_worker_start_callback(serv->get_worker(reactor_id));
     }
